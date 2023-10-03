@@ -88,11 +88,12 @@ Most compilers implement their own version of this keyword ...
 #endif
 
 /* MSVC and Borland C do not have lrintf */
+/* Patched for MSVC >= 16.9 */
 #if defined(_MSC_VER) || defined(__BORLANDC__)
 
 /* MSVC 64bits doesn't support _asm */
 #if !defined(_WIN64)
-static INLINE long lrintf(float f){
+static INLINE long opj_lrintf(float f){
   int i;
 
   _asm{
@@ -103,7 +104,7 @@ static INLINE long lrintf(float f){
   return i;
 }
 #else
-static INLINE long lrintf(float x){
+static INLINE long opj_lrintf(float x){
   long r;
   if (x>=0.f)
   {
